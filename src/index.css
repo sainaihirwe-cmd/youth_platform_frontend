@@ -67,6 +67,11 @@
   ::selection {
     @apply bg-brand-200 text-navy-900;
   }
+  /* Grid items default to min-width:auto, so one long word or wide child can push a column
+     past the screen on phones. Utilities (e.g. min-w-64) still override this. */
+  .grid > * {
+    min-width: 0;
+  }
 }
 
 @layer components {

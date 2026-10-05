@@ -12,14 +12,15 @@ const TONES = {
 
 export default function StatCard({ label, value, icon: Icon, tone = 'blue', to, hint }) {
   const body = (
-    <div className="card flex h-full items-start justify-between gap-3 p-5 transition hover:shadow-card-hover">
+    // Phones: icon above the label so long labels get the full width; side by side from sm up
+    <div className="card flex h-full flex-col-reverse items-start justify-end gap-3 p-4 transition hover:shadow-card-hover sm:flex-row sm:justify-between sm:p-5">
       <div className="min-w-0">
-        <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{label}</p>
-        <p className="mt-2 text-3xl font-bold tracking-tight text-navy-900 dark:text-white">{formatNumber(value)}</p>
+        <p className="text-sm font-medium break-words text-slate-500 dark:text-slate-400">{label}</p>
+        <p className="mt-1 text-2xl font-bold tracking-tight text-navy-900 sm:mt-2 sm:text-3xl dark:text-white">{formatNumber(value)}</p>
         {hint && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{hint}</p>}
       </div>
       {Icon && (
-        <span className={`rounded-xl p-2.5 ${TONES[tone]}`}>
+        <span className={`shrink-0 rounded-xl p-2 sm:p-2.5 ${TONES[tone]}`}>
           <Icon className="h-5 w-5" aria-hidden />
         </span>
       )}

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { useNotifications } from '../../context/NotificationContext';
 import Logo from '../common/Logo';
+import LanguageSelector from '../common/LanguageSelector';
 import { NAV_BY_ROLE } from './navConfig';
 
 function SidebarContent({ onNavigate }) {
@@ -42,6 +43,8 @@ function SidebarContent({ onNavigate }) {
         ))}
       </nav>
       <div className="space-y-1 border-t border-white/10 p-3">
+        {/* The header hides the language picker on phones, so offer it here instead */}
+        <LanguageSelector className="mb-2 flex w-full sm:hidden" selectClassName="w-full py-2.5 text-sm" />
         <NavLink to="/" onClick={onNavigate} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-300 hover:bg-white/5 hover:text-white">
           <ExternalLink className="h-[18px] w-[18px]" aria-hidden /> {t('nav.backToSite')}
         </NavLink>

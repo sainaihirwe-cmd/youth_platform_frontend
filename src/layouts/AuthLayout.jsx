@@ -32,9 +32,15 @@ export default function AuthLayout({ title, subtitle, children, variant = 'defau
       <div className="flex flex-col">
         <div className="flex items-center justify-between p-4 sm:p-6">
           <div className="lg:hidden">
-            <Logo />
+            {/* Just the mark on very narrow phones, so the language and theme controls fit */}
+            <span className="min-[380px]:hidden">
+              <Logo compact />
+            </span>
+            <span className="hidden min-[380px]:block">
+              <Logo />
+            </span>
           </div>
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex shrink-0 items-center gap-2">
             <LanguageSelector />
             <ThemeToggle />
           </div>
