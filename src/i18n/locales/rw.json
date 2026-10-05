@@ -412,7 +412,10 @@
     "send": "Ohereza ubutumwa",
     "sentTitle": "Ubutumwa bwoherejwe",
     "sentText": "Urakoze kutwandikira. Itsinda ryacu rizagusubiza kuri imeyili vuba bishoboka.",
-    "sendAnother": "Ohereza ubundi butumwa"
+    "sendAnother": "Ohereza ubundi butumwa",
+    "findUs": "Aho dukorera",
+    "openInMaps": "Fungura muri Google Maps",
+    "mapTitle": "Ikarita yerekana {{address}}"
   },
   "footer": {
     "about": "Duhuza abashaka akazi n'abakoresha bo mu gace, ubucuruzi buto n'amahirwe y'akazi k'igihe gito mu Rwanda hose.",

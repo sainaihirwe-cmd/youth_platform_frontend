@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { CheckCircle2, Mail, MapPin, Phone, Clock } from 'lucide-react';
+import { CheckCircle2, Mail, MapPin, Phone, Clock, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Input, Textarea } from '../../components/forms/FormField';
@@ -44,6 +44,8 @@ export default function ContactPage() {
     { icon: MapPin, label: t('contact.address'), value: settings.contactAddress },
     { icon: Clock, label: t('contact.hours'), value: t('contact.hoursValue') },
   ];
+  // Keyless Google Maps embed; follows the address admins set in platform settings
+  const mapQuery = encodeURIComponent(settings.contactAddress || 'Kigali, Rwanda');
 
   return (
     <div className="container-page py-12">
@@ -125,6 +127,33 @@ export default function ContactPage() {
           )}
         </div>
       </div>
+
+      <section className="card mt-8 overflow-hidden" aria-labelledby="contact-map-title">
+        <div className="flex flex-wrap items-center justify-between gap-3 p-5">
+          <div className="flex items-center gap-3">
+            <MapPin className="h-5 w-5 text-brand-600 dark:text-brand-400" aria-hidden />
+            <h2 id="contact-map-title" className="text-lg font-semibold">
+              {t('contact.findUs')}
+            </h2>
+          </div>
+          <a
+            href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-secondary text-sm"
+          >
+            {t('contact.openInMaps')} <ExternalLink className="h-4 w-4" aria-hidden />
+          </a>
+        </div>
+        <iframe
+          title={t('contact.mapTitle', { address: settings.contactAddress || 'Kigali, Rwanda' })}
+          src={`https://maps.google.com/maps?q=${mapQuery}&z=15&output=embed`}
+          className="block h-80 w-full border-0 sm:h-96"
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          allowFullScreen
+        />
+      </section>
     </div>
   );
 }

@@ -412,7 +412,10 @@
     "send": "Send message",
     "sentTitle": "Message sent",
     "sentText": "Thank you for reaching out. Our team will reply by email as soon as possible.",
-    "sendAnother": "Send another message"
+    "sendAnother": "Send another message",
+    "findUs": "Find us",
+    "openInMaps": "Open in Google Maps",
+    "mapTitle": "Map showing {{address}}"
   },
   "footer": {
     "about": "Connecting job seekers with local employers, small businesses and short-term opportunities across Rwanda.",
