@@ -1,0 +1,34 @@
+# Render Blueprint for the JobConnect Rwanda frontend (https://render.com/docs/blueprint-spec)
+# In Render: New > Blueprint > select this repository.
+# The API rewrites assume the backend web service is named "youth-platform-backend".
+# If your backend URL is different, replace it in the two rewrite destinations below.
+services:
+  - type: web
+    name: youth-platform-frontend
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      # Same-origin API through the rewrite below, so the auth cookie is first-party
+      - key: VITE_API_URL
+        value: /api
+    routes:
+      - type: rewrite
+        source: /api/*
+        destination: https://youth-platform-backend.onrender.com/api/*
+      - type: rewrite
+        source: /uploads/*
+        destination: https://youth-platform-backend.onrender.com/uploads/*
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
