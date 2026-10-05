@@ -32,3 +32,6 @@ services:
       - path: /*
         name: Referrer-Policy
         value: strict-origin-when-cross-origin
+      - path: /site.webmanifest
+        name: Content-Type
+        value: application/manifest+json
