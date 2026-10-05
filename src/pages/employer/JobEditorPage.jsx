@@ -1,10 +1,12 @@
+import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Trash2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import PageHeader from '../../components/dashboard/PageHeader';
 import JobForm from '../../components/forms/JobForm';
 import { CardSkeleton } from '../../components/common/Skeleton';
 import ErrorMessage from '../../components/common/ErrorMessage';
+import ConfirmationDialog from '../../components/common/ConfirmationDialog';
 import { useAsync } from '../../hooks/useAsync';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 import { useToast } from '../../context/ToastContext';
@@ -24,6 +26,13 @@ export default function JobEditorPage() {
 
   const categories = useAsync(() => categoryService.list().then((r) => r.data), []);
   const job = useAsync(() => (isEdit ? jobService.get(id).then((r) => r.data) : Promise.resolve(null)), [id]);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+
+  const remove = async () => {
+    const res = await jobService.remove(id);
+    toast.success(res.message);
+    navigate('/employer/jobs', { replace: true });
+  };
 
   const onSubmit = async (payload, status) => {
     if (isEdit) {
@@ -47,10 +56,21 @@ export default function JobEditorPage() {
   const error = categories.error || job.error;
   const notOwned = isEdit && job.data && !job.data.isOwner;
   const removed = isEdit && job.data?.job?.status === 'removed';
+  const canDelete = isEdit && job.data?.isOwner;
+  const deleteButton = canDelete && (
+    <button type="button" className="btn btn-danger-outline" onClick={() => setConfirmDelete(true)}>
+      <Trash2 className="h-4 w-4" /> {t('employerJobs.deleteTitle')}
+    </button>
+  );
 
   return (
     <div className="max-w-4xl">
-      <PageHeader back={back} title={isEdit ? t('jobForm.editTitle') : t('jobForm.createTitle')} subtitle={isEdit ? job.data?.job?.title : t('jobForm.createSubtitle')} />
+      <PageHeader
+        back={back}
+        title={isEdit ? t('jobForm.editTitle') : t('jobForm.createTitle')}
+        subtitle={isEdit ? job.data?.job?.title : t('jobForm.createSubtitle')}
+        actions={deleteButton}
+      />
       {loading && !categories.data ? (
         <CardSkeleton lines={6} />
       ) : error ? (
@@ -67,6 +87,16 @@ export default function JobEditorPage() {
           onSubmit={onSubmit}
           allowDraft={!isEdit}
           submitLabel={isEdit ? t('common.saveChanges') : t('jobForm.publish')}
+        />
+      )}
+      {canDelete && (
+        <ConfirmationDialog
+          open={confirmDelete}
+          onClose={() => setConfirmDelete(false)}
+          onConfirm={remove}
+          title={t('employerJobs.deleteTitle')}
+          message={t('employerJobs.deleteConfirm', { title: job.data.job.title, count: job.data.applicationCount || 0 })}
+          confirmLabel={t('common.delete')}
         />
       )}
     </div>

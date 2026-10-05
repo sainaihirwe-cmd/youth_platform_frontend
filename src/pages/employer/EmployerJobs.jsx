@@ -25,12 +25,21 @@ function JobActions({ job, onStatus, onDelete }) {
   const removed = job.status === 'removed';
   const item = 'flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm hover:bg-slate-100 dark:hover:bg-navy-800';
   return (
-    <div className="relative" onBlur={(e) => !e.currentTarget.contains(e.relatedTarget) && setOpen(false)}>
+    <div className="relative flex items-center justify-end gap-1" onBlur={(e) => !e.currentTarget.contains(e.relatedTarget) && setOpen(false)}>
+      <button
+        type="button"
+        className="btn-ghost rounded-lg p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10"
+        onClick={() => onDelete(job)}
+        aria-label={t('employerJobs.deleteJobNamed', { title: job.title })}
+        title={t('employerJobs.deleteTitle')}
+      >
+        <Trash2 className="h-4 w-4" />
+      </button>
       <button type="button" className="btn-ghost rounded-lg p-2" onClick={() => setOpen((o) => !o)} aria-label={t('common.actions')} aria-expanded={open}>
         <MoreVertical className="h-4 w-4" />
       </button>
       {open && (
-        <div className="card absolute right-0 z-20 mt-1 w-52 p-1.5 shadow-card-hover" role="menu">
+        <div className="card absolute right-0 top-full z-20 mt-1 w-52 p-1.5 shadow-card-hover" role="menu">
           <Link to={`/jobs/${job._id}`} className={item} role="menuitem">
             <Eye className="h-4 w-4" /> {t('employerJobs.viewListing')}
           </Link>

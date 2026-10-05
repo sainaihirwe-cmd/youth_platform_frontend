@@ -23,6 +23,7 @@ export const NAV_BY_ROLE = {
     { to: '/seeker/saved-jobs', key: 'nav.savedJobs', icon: Bookmark },
     { to: '/seeker/resume', key: 'nav.resume', icon: FolderKanban },
     { to: '/seeker/profile', key: 'nav.profile', icon: UserRound },
+    { to: '/seeker/reports', key: 'nav.myReports', icon: Flag },
     { to: '/seeker/notifications', key: 'nav.notifications', icon: Bell, badge: 'notifications' },
   ],
   employer: [
@@ -30,6 +31,7 @@ export const NAV_BY_ROLE = {
     { to: '/employer/jobs', key: 'nav.myJobs', icon: Briefcase, end: true },
     { to: '/employer/jobs/create', key: 'nav.postJob', icon: PlusCircle },
     { to: '/employer/profile', key: 'nav.companyProfile', icon: Building2 },
+    { to: '/employer/reports', key: 'nav.myReports', icon: Flag },
     { to: '/employer/notifications', key: 'nav.notifications', icon: Bell, badge: 'notifications' },
   ],
   admin: [

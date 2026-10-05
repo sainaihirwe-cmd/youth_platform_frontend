@@ -50,7 +50,8 @@
     "users": "Abakoresha",
     "jobs": "Akazi",
     "reports": "Raporo",
-    "categories": "Ibyiciro"
+    "categories": "Ibyiciro",
+    "myReports": "Ibirego Byanjye"
   },
   "roles": {
     "job_seeker": "Ushaka akazi",
@@ -287,7 +288,8 @@
     "reportJob": "Menyesha aka kazi",
     "aboutEmployer": "Ibyerekeye utanga akazi",
     "viewEmployer": "Reba umwirondoro w'utanga akazi",
-    "related": "Akazi gasa n'aka"
+    "related": "Akazi gasa n'aka",
+    "loginToReport": "Injira kugira ngo utange ikirego kuri aka kazi. Ibirego bifasha JobConnect kuba ahantu hizewe."
   },
   "apply": {
     "title": "Saba aka kazi",
@@ -737,7 +739,8 @@
     "noneHint": "Tangaza akazi utangire kwakira ubusabe bw'abashaka akazi.",
     "deleteTitle": "Siba akazi",
     "deleteConfirm_one": "Usiba burundu \"{{title}}\"? Ubusabe {{count}} bwako nabwo buzasibwa.",
-    "deleteConfirm_other": "Usiba burundu \"{{title}}\"? Ubusabe {{count}} bwako nabwo buzasibwa."
+    "deleteConfirm_other": "Usiba burundu \"{{title}}\"? Ubusabe {{count}} bwako nabwo buzasibwa.",
+    "deleteJobNamed": "Siba {{title}}"
   },
   "jobForm": {
     "createTitle": "Tangaza akazi gashya",
@@ -1003,5 +1006,20 @@
     "markRead": "Shyira nk'ubwasomwe",
     "archive": "Bika mu bubiko",
     "noMessages": "Nta butumwa buri hano"
+  },
+  "myReports": {
+    "title": "Ibirego byanjye",
+    "subtitle": "Akazi na konti watanzeho ikirego, n’icyemezo cy’abagenzuzi.",
+    "submittedOn": "Cyatanzwe ku wa {{date}}",
+    "deletedJob": "Aka kazi ntikakiboneka",
+    "deletedUser": "Iyi konti ntikiboneka",
+    "empty": "Nta kirego uratanga",
+    "emptyHint": "Ubonye uburiganya, akazi k’ikinyoma cyangwa konti iteye amakenga? Fungura akazi cyangwa umwirondoro hanyuma ukande \"Tanga ikirego\".",
+    "statusHint": {
+      "pending": "Gitegereje gusuzumwa n’umugenzuzi.",
+      "under_review": "Umugenzuzi ari kugisuzuma.",
+      "resolved": "Hafashwe ingamba. Murakoze gufasha urubuga kuba ahantu hizewe.",
+      "dismissed": "Umugenzuzi yagisuzumye asanga nta tegeko ryishwe."
+    }
   }
 }

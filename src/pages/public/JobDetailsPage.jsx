@@ -312,9 +312,15 @@ export default function JobDetailsPage() {
                 <Share2 className="h-4 w-4" /> {t('jobDetails.share')}
               </button>
             </div>
-            {user && !isOwner && user.role !== 'admin' && (
-              <button type="button" onClick={() => setReportOpen(true)} className="flex w-full items-center justify-center gap-1.5 text-xs font-medium text-slate-500 hover:text-red-600">
-                <Flag className="h-3.5 w-3.5" /> {t('jobDetails.reportJob')}
+            {!isOwner && user?.role !== 'admin' && (
+              <button
+                type="button"
+                onClick={() =>
+                  user ? setReportOpen(true) : navigate('/login', { state: { from: location, message: t('jobDetails.loginToReport') } })
+                }
+                className="btn btn-danger-outline btn-sm w-full"
+              >
+                <Flag className="h-4 w-4" /> {t('jobDetails.reportJob')}
               </button>
             )}
           </div>

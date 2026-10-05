@@ -50,7 +50,8 @@
     "users": "Users",
     "jobs": "Jobs",
     "reports": "Reports",
-    "categories": "Categories"
+    "categories": "Categories",
+    "myReports": "My Reports"
   },
   "roles": {
     "job_seeker": "Job Seeker",
@@ -287,7 +288,8 @@
     "reportJob": "Report this job",
     "aboutEmployer": "About the employer",
     "viewEmployer": "View employer profile",
-    "related": "Related jobs"
+    "related": "Related jobs",
+    "loginToReport": "Log in to report this job. Reports help keep JobConnect safe."
   },
   "apply": {
     "title": "Apply for this job",
@@ -737,7 +739,8 @@
     "noneHint": "Post a job to start receiving applications from job seekers.",
     "deleteTitle": "Delete job",
     "deleteConfirm_one": "Permanently delete \"{{title}}\"? Its {{count}} application will also be deleted.",
-    "deleteConfirm_other": "Permanently delete \"{{title}}\"? Its {{count}} applications will also be deleted."
+    "deleteConfirm_other": "Permanently delete \"{{title}}\"? Its {{count}} applications will also be deleted.",
+    "deleteJobNamed": "Delete {{title}}"
   },
   "jobForm": {
     "createTitle": "Post a new job",
@@ -1003,5 +1006,20 @@
     "markRead": "Mark as read",
     "archive": "Archive",
     "noMessages": "No messages here"
+  },
+  "myReports": {
+    "title": "My reports",
+    "subtitle": "Jobs and accounts you have reported, and what our moderators decided.",
+    "submittedOn": "Reported on {{date}}",
+    "deletedJob": "Job no longer available",
+    "deletedUser": "Account no longer available",
+    "empty": "You haven't reported anything",
+    "emptyHint": "See a scam, fake job or suspicious account? Open the job or profile and click \"Report\".",
+    "statusHint": {
+      "pending": "Waiting for a moderator to review it.",
+      "under_review": "A moderator is looking into this.",
+      "resolved": "Action was taken. Thank you for helping keep the platform safe.",
+      "dismissed": "A moderator reviewed this and found no rule was broken."
+    }
   }
 }

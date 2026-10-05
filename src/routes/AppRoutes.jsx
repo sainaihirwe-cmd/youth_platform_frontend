@@ -29,6 +29,7 @@ const SeekerApplications = lazy(() => import('../pages/seeker/SeekerApplications
 const SavedJobsPage = lazy(() => import('../pages/seeker/SavedJobsPage'));
 const ResumePage = lazy(() => import('../pages/seeker/ResumePage'));
 const NotificationsPage = lazy(() => import('../pages/shared/NotificationsPage'));
+const MyReportsPage = lazy(() => import('../pages/shared/MyReportsPage'));
 
 const EmployerDashboard = lazy(() => import('../pages/employer/EmployerDashboard'));
 const EmployerProfile = lazy(() => import('../pages/employer/EmployerProfile'));
@@ -76,6 +77,7 @@ export default function AppRoutes() {
               <Route path="saved-jobs" element={<SavedJobsPage />} />
               <Route path="notifications" element={<NotificationsPage />} />
               <Route path="resume" element={<ResumePage />} />
+              <Route path="reports" element={<MyReportsPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Route>
             <Route path="employer" element={<RoleRoute roles={['employer']} />}>
@@ -85,6 +87,7 @@ export default function AppRoutes() {
               <Route path="jobs/create" element={<JobEditorPage />} />
               <Route path="jobs/:id/edit" element={<JobEditorPage />} />
               <Route path="jobs/:id/applications" element={<JobApplicationsPage />} />
+              <Route path="reports" element={<MyReportsPage />} />
               <Route path="notifications" element={<NotificationsPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Route>
