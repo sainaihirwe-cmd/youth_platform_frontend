@@ -1023,7 +1023,6 @@
     }
   },
   "reportsExport": {
-    "exportCsv": "Kuramo CSV",
     "exporting": "Biri gukurwamo…",
     "print": "Capa",
     "printTitle": "Raporo y’ibirego",
@@ -1040,6 +1039,9 @@
     "typeJob": "Akazi",
     "typeUser": "Konti",
     "truncated": "Herekanywe ibirego {{shown}} bya vuba muri {{total}}. Gabanya muyunguruzi kugira ngo ubone ibisigaye.",
-    "confidential": "Ibanga - ku bayobozi ba JobConnect Rwanda gusa."
+    "confidential": "Ibanga - ku bayobozi ba JobConnect Rwanda gusa.",
+    "export": "Kuramo",
+    "formats": {"xlsx": "Excel (.xlsx)", "pdf": "Inyandiko ya PDF", "csv": "CSV", "json": "JSON"},
+    "formatHints": {"xlsx": "Imbonerahamwe ifite urupapuro rw’incamake", "pdf": "Yiteguye gucapwa cyangwa koherezwa", "csv": "Amakuru asanzwe ku mbonerahamwe iyo ari yo yose", "json": "Amakuru mbisi y’abakora porogaramu"}
   }
 }

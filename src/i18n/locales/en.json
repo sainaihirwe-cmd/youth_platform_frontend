@@ -1023,7 +1023,6 @@
     }
   },
   "reportsExport": {
-    "exportCsv": "Export CSV",
     "exporting": "Exporting…",
     "print": "Print",
     "printTitle": "Moderation reports",
@@ -1040,6 +1039,9 @@
     "typeJob": "Job",
     "typeUser": "Account",
     "truncated": "Showing the newest {{shown}} of {{total}} reports. Narrow the filters to include the rest.",
-    "confidential": "Confidential - for JobConnect Rwanda administrators only."
+    "confidential": "Confidential - for JobConnect Rwanda administrators only.",
+    "export": "Export",
+    "formats": {"xlsx": "Excel (.xlsx)", "pdf": "PDF document", "csv": "CSV", "json": "JSON"},
+    "formatHints": {"xlsx": "Spreadsheet with a summary sheet", "pdf": "Ready to print or share", "csv": "Plain data for any spreadsheet app", "json": "Raw data for developers"}
   }
 }

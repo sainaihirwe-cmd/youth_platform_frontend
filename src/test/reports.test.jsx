@@ -66,7 +66,7 @@ describe('JobEditorPage delete', () => {
 });
 
 describe('Admin report export and print', () => {
-  it('downloads the filtered reports as CSV', async () => {
+  it('downloads the filtered reports in every format', async () => {
     getRoutes['/admin/reports'] = { data: { reports: [], counts: { pending: 0, under_review: 0, resolved: 0, dismissed: 0 } }, pagination: { page: 1, pages: 1, total: 0 } };
     const get = api.get;
     URL.createObjectURL = vi.fn(() => 'blob:csv');
@@ -81,9 +81,14 @@ describe('Admin report export and print', () => {
     });
 
     renderWithProviders(<AdminReports />, { route: '/admin/reports?status=pending&type=job' });
-    await userEvent.click(await screen.findByRole('button', { name: /Export CSV/ }));
-    await vi.waitFor(() => expect(click).toHaveBeenCalled());
-    expect(get).toHaveBeenCalledWith('/admin/reports/export', { params: { status: 'pending', type: 'job', format: 'csv' }, responseType: 'blob' });
+    for (const [label, format] of [[/Excel/, 'xlsx'], [/PDF document/, 'pdf'], [/^CSV/, 'csv'], [/^JSON/, 'json']]) {
+      await userEvent.click(await screen.findByRole('button', { name: /Export/ }));
+      await userEvent.click(screen.getByRole('menuitem', { name: label }));
+      await vi.waitFor(() =>
+        expect(get).toHaveBeenCalledWith('/admin/reports/export', { params: { status: 'pending', type: 'job', format, download: '1' }, responseType: 'blob' })
+      );
+    }
+    expect(click).toHaveBeenCalledTimes(4);
     expect(screen.getByRole('link', { name: /Print/ })).toHaveAttribute('href', '/admin/reports/print?status=pending&type=job');
   });
 

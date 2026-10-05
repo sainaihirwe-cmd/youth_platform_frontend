@@ -20,7 +20,9 @@ export const adminService = {
 
   reports: (params) => api.get('/admin/reports', { params: cleanParams(params) }).then(unwrap),
   updateReport: (id, data) => api.patch(`/admin/reports/${id}`, data).then(unwrap),
-  exportReportsCsv: (params) => downloadFile('/admin/reports/export', cleanParams({ ...params, format: 'csv' }), 'jobconnect-reports.csv'),
+  /** @param {'csv'|'xlsx'|'pdf'|'json'} format */
+  exportReports: (format, params) =>
+    downloadFile('/admin/reports/export', cleanParams({ ...params, format, download: '1' }), `jobconnect-reports.${format}`),
   reportsForPrint: (params) => api.get('/admin/reports/export', { params: cleanParams({ ...params, format: 'json' }) }).then(unwrap),
 
   settings: () => api.get('/admin/settings').then(unwrap),

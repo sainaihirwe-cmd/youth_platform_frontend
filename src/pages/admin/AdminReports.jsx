@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Briefcase, Download, Flag, Printer, UserRound } from 'lucide-react';
+import { Briefcase, ChevronDown, Download, FileJson, FileSpreadsheet, FileText, Flag, Printer, Sheet, UserRound } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import PageHeader from '../../components/dashboard/PageHeader';
 import Tabs from '../../components/common/Tabs';
@@ -17,6 +17,55 @@ import { useToast } from '../../context/ToastContext';
 import { adminService } from '../../services/adminService';
 import { REPORT_REASONS, REPORT_STATUSES } from '../../utils/constants';
 import { formatDateTime, timeAgo } from '../../utils/format';
+
+const EXPORT_FORMATS = [
+  { id: 'xlsx', icon: FileSpreadsheet },
+  { id: 'pdf', icon: FileText },
+  { id: 'csv', icon: Sheet },
+  { id: 'json', icon: FileJson },
+];
+
+/** "Export" dropdown: downloads the currently filtered reports in the chosen format. */
+function ExportMenu({ filters }) {
+  const { t } = useTranslation();
+  const toast = useToast();
+  const [open, setOpen] = useState(false);
+  const [busy, setBusy] = useState('');
+
+  const run = async (format) => {
+    setOpen(false);
+    setBusy(format);
+    try {
+      await adminService.exportReports(format, filters);
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setBusy('');
+    }
+  };
+
+  const item = 'flex w-full items-start gap-3 rounded-lg px-3 py-2 text-left hover:bg-slate-100 dark:hover:bg-navy-800';
+  return (
+    <div className="relative" onBlur={(e) => !e.currentTarget.contains(e.relatedTarget) && setOpen(false)}>
+      <button type="button" className="btn btn-secondary" onClick={() => setOpen((o) => !o)} aria-haspopup="menu" aria-expanded={open} disabled={Boolean(busy)}>
+        <Download className="h-4 w-4" /> {busy ? t('reportsExport.exporting') : t('reportsExport.export')} <ChevronDown className="h-4 w-4" />
+      </button>
+      {open && (
+        <div className="card absolute right-0 top-full z-20 mt-1 w-64 p-1.5 shadow-card-hover" role="menu">
+          {EXPORT_FORMATS.map(({ id, icon: Icon }) => (
+            <button key={id} type="button" role="menuitem" className={item} onClick={() => run(id)}>
+              <Icon className="mt-0.5 h-4 w-4 shrink-0 text-brand-600 dark:text-brand-400" aria-hidden />
+              <span>
+                <span className="block text-sm font-medium">{t(`reportsExport.formats.${id}`)}</span>
+                <span className="block text-xs text-slate-500">{t(`reportsExport.formatHints.${id}`)}</span>
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function ReviewModal({ report, onClose, onSaved }) {
   const { t } = useTranslation();
@@ -139,19 +188,6 @@ export default function AdminReports() {
   const reason = params.get('reason') || '';
   const page = Number(params.get('page')) || 1;
   const [reviewing, setReviewing] = useState(null);
-  const [exporting, setExporting] = useState(false);
-  const toast = useToast();
-
-  const exportCsv = async () => {
-    setExporting(true);
-    try {
-      await adminService.exportReportsCsv({ status, type, reason });
-    } catch (err) {
-      toast.error(err.message);
-    } finally {
-      setExporting(false);
-    }
-  };
   const printQuery = new URLSearchParams(Object.entries({ status, type, reason }).filter(([, v]) => v)).toString();
 
   const list = useAsync(() => adminService.reports({ status, type, reason, page, limit: 15 }), [status, type, reason, page]);
@@ -178,9 +214,7 @@ export default function AdminReports() {
         subtitle={t('reports.subtitle')}
         actions={
           <>
-            <button type="button" className="btn btn-secondary" onClick={exportCsv} disabled={exporting}>
-              <Download className="h-4 w-4" /> {exporting ? t('reportsExport.exporting') : t('reportsExport.exportCsv')}
-            </button>
+            <ExportMenu filters={{ status, type, reason }} />
             <Link to={`/admin/reports/print${printQuery ? `?${printQuery}` : ''}`} target="_blank" className="btn btn-secondary">
               <Printer className="h-4 w-4" /> {t('reportsExport.print')}
             </Link>
