@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Briefcase, Flag, UserRound } from 'lucide-react';
+import { Briefcase, Download, Flag, Printer, UserRound } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import PageHeader from '../../components/dashboard/PageHeader';
 import Tabs from '../../components/common/Tabs';
@@ -139,6 +139,20 @@ export default function AdminReports() {
   const reason = params.get('reason') || '';
   const page = Number(params.get('page')) || 1;
   const [reviewing, setReviewing] = useState(null);
+  const [exporting, setExporting] = useState(false);
+  const toast = useToast();
+
+  const exportCsv = async () => {
+    setExporting(true);
+    try {
+      await adminService.exportReportsCsv({ status, type, reason });
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setExporting(false);
+    }
+  };
+  const printQuery = new URLSearchParams(Object.entries({ status, type, reason }).filter(([, v]) => v)).toString();
 
   const list = useAsync(() => adminService.reports({ status, type, reason, page, limit: 15 }), [status, type, reason, page]);
   const reports = list.data?.data?.reports || [];
@@ -159,7 +173,20 @@ export default function AdminReports() {
 
   return (
     <>
-      <PageHeader title={t('reports.title')} subtitle={t('reports.subtitle')} />
+      <PageHeader
+        title={t('reports.title')}
+        subtitle={t('reports.subtitle')}
+        actions={
+          <>
+            <button type="button" className="btn btn-secondary" onClick={exportCsv} disabled={exporting}>
+              <Download className="h-4 w-4" /> {exporting ? t('reportsExport.exporting') : t('reportsExport.exportCsv')}
+            </button>
+            <Link to={`/admin/reports/print${printQuery ? `?${printQuery}` : ''}`} target="_blank" className="btn btn-secondary">
+              <Printer className="h-4 w-4" /> {t('reportsExport.print')}
+            </Link>
+          </>
+        }
+      />
       <Tabs tabs={tabs} active={status} onChange={(s) => setFilter('status', s)} className="mb-4" />
       <div className="mb-4 flex flex-col gap-3 sm:flex-row">
         <select className="input sm:w-48" value={type} onChange={(e) => setFilter('type', e.target.value)} aria-label={t('reports.type')}>

@@ -1021,5 +1021,25 @@
       "resolved": "Hafashwe ingamba. Murakoze gufasha urubuga kuba ahantu hizewe.",
       "dismissed": "Umugenzuzi yagisuzumye asanga nta tegeko ryishwe."
     }
+  },
+  "reportsExport": {
+    "exportCsv": "Kuramo CSV",
+    "exporting": "Biri gukurwamo…",
+    "print": "Capa",
+    "printTitle": "Raporo y’ibirego",
+    "generatedAt": "Yakozwe {{date}}",
+    "filters": "Muyunguruzi",
+    "allReports": "Ibirego byose",
+    "summary": "Incamake",
+    "total": "Byose hamwe",
+    "date": "Itariki",
+    "reported": "Icyatanzweho ikirego",
+    "reporter": "Cyatanzwe na",
+    "statusCol": "Uko gihagaze",
+    "outcome": "Icyemezo",
+    "typeJob": "Akazi",
+    "typeUser": "Konti",
+    "truncated": "Herekanywe ibirego {{shown}} bya vuba muri {{total}}. Gabanya muyunguruzi kugira ngo ubone ibisigaye.",
+    "confidential": "Ibanga - ku bayobozi ba JobConnect Rwanda gusa."
   }
 }

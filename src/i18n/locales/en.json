@@ -1021,5 +1021,25 @@
       "resolved": "Action was taken. Thank you for helping keep the platform safe.",
       "dismissed": "A moderator reviewed this and found no rule was broken."
     }
+  },
+  "reportsExport": {
+    "exportCsv": "Export CSV",
+    "exporting": "Exporting…",
+    "print": "Print",
+    "printTitle": "Moderation reports",
+    "generatedAt": "Generated {{date}}",
+    "filters": "Filters",
+    "allReports": "All reports",
+    "summary": "Summary",
+    "total": "Total",
+    "date": "Date",
+    "reported": "Reported item",
+    "reporter": "Reported by",
+    "statusCol": "Status",
+    "outcome": "Outcome",
+    "typeJob": "Job",
+    "typeUser": "Account",
+    "truncated": "Showing the newest {{shown}} of {{total}} reports. Narrow the filters to include the rest.",
+    "confidential": "Confidential - for JobConnect Rwanda administrators only."
   }
 }

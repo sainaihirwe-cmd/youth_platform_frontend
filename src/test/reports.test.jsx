@@ -5,6 +5,8 @@ import { Route } from 'react-router-dom';
 import { renderWithProviders } from './renderWithProviders';
 import MyReportsPage from '../pages/shared/MyReportsPage';
 import JobEditorPage from '../pages/employer/JobEditorPage';
+import AdminReports from '../pages/admin/AdminReports';
+import AdminReportsPrint from '../pages/admin/AdminReportsPrint';
 import api, { ApiRequestError } from '../services/api';
 
 const employer = { _id: 'e1', name: 'Eric Mugisha', role: 'employer', email: 'eric@example.com' };
@@ -60,5 +62,52 @@ describe('JobEditorPage delete', () => {
     await userEvent.click(confirm);
     expect(await screen.findByText('My jobs list')).toBeInTheDocument();
     expect(del).toHaveBeenCalledWith('/jobs/j1');
+  });
+});
+
+describe('Admin report export and print', () => {
+  it('downloads the filtered reports as CSV', async () => {
+    getRoutes['/admin/reports'] = { data: { reports: [], counts: { pending: 0, under_review: 0, resolved: 0, dismissed: 0 } }, pagination: { page: 1, pages: 1, total: 0 } };
+    const get = api.get;
+    URL.createObjectURL = vi.fn(() => 'blob:csv');
+    URL.revokeObjectURL = vi.fn();
+    const click = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
+    get.mockImplementation((url, config) => {
+      if (url === '/admin/reports/export') {
+        return Promise.resolve({ data: new Blob(['a,b']), headers: { 'content-disposition': 'attachment; filename="jobconnect-reports-2026-10-05.csv"' }, config });
+      }
+      if (url in getRoutes) return Promise.resolve({ data: { success: true, ...getRoutes[url] } });
+      return Promise.reject(new ApiRequestError('Not authenticated', { status: 401 }));
+    });
+
+    renderWithProviders(<AdminReports />, { route: '/admin/reports?status=pending&type=job' });
+    await userEvent.click(await screen.findByRole('button', { name: /Export CSV/ }));
+    await vi.waitFor(() => expect(click).toHaveBeenCalled());
+    expect(get).toHaveBeenCalledWith('/admin/reports/export', { params: { status: 'pending', type: 'job', format: 'csv' }, responseType: 'blob' });
+    expect(screen.getByRole('link', { name: /Print/ })).toHaveAttribute('href', '/admin/reports/print?status=pending&type=job');
+  });
+
+  it('renders a printable summary and opens the print dialog', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    const print = vi.spyOn(window, 'print').mockImplementation(() => {});
+    getRoutes['/admin/reports/export'] = {
+      data: {
+        rows: [
+          { id: 'r1', createdAt: '2026-10-01T10:00:00Z', status: 'resolved', reason: 'scam', type: 'job', reportedJob: 'Cashier wanted', reporter: 'Aline', reporterEmail: 'a@example.com', description: 'Asked for a fee', actionTaken: 'job_removed', adminNotes: 'Removed', reviewedBy: 'Admin', reviewedAt: '2026-10-02T10:00:00Z' },
+          { id: 'r2', createdAt: '2026-10-03T10:00:00Z', status: 'pending', reason: 'spam', type: 'user', reportedUser: '', reporter: 'Eric', actionTaken: 'none' },
+        ],
+        total: 2,
+        truncated: false,
+        generatedAt: '2026-10-05T10:00:00Z',
+      },
+    };
+    renderWithProviders(<AdminReportsPrint />, { route: '/admin/reports/print?reason=scam' });
+    expect(await screen.findByRole('heading', { name: 'Moderation reports' })).toBeInTheDocument();
+    expect(screen.getByText('Cashier wanted')).toBeInTheDocument();
+    expect(screen.getByText('Job removed')).toBeInTheDocument();
+    expect(screen.getByText(/Filters: Scam or fraud/)).toBeInTheDocument();
+    await vi.advanceTimersByTimeAsync(400);
+    expect(print).toHaveBeenCalledTimes(1);
+    vi.useRealTimers();
   });
 });

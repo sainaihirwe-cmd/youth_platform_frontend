@@ -1,4 +1,4 @@
-import api, { unwrap } from './api';
+import api, { downloadFile, unwrap } from './api';
 import { cleanParams } from './jobService';
 
 export const adminService = {
@@ -20,6 +20,8 @@ export const adminService = {
 
   reports: (params) => api.get('/admin/reports', { params: cleanParams(params) }).then(unwrap),
   updateReport: (id, data) => api.patch(`/admin/reports/${id}`, data).then(unwrap),
+  exportReportsCsv: (params) => downloadFile('/admin/reports/export', cleanParams({ ...params, format: 'csv' }), 'jobconnect-reports.csv'),
+  reportsForPrint: (params) => api.get('/admin/reports/export', { params: cleanParams({ ...params, format: 'json' }) }).then(unwrap),
 
   settings: () => api.get('/admin/settings').then(unwrap),
   updateSettings: (data) => api.put('/admin/settings', data).then(unwrap),

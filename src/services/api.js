@@ -99,4 +99,19 @@ export async function openProtectedFile(url, filename) {
   }
 }
 
+/** Downloads an authenticated file (e.g. a CSV export), using the server's filename when available. */
+export async function downloadFile(path, params, fallbackName) {
+  const res = await api.get(path, { params, responseType: 'blob' });
+  const disposition = res.headers?.['content-disposition'] || '';
+  const filename = /filename="?([^";]+)"?/i.exec(disposition)?.[1] || fallbackName;
+  const blobUrl = URL.createObjectURL(res.data);
+  const a = document.createElement('a');
+  a.href = blobUrl;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
+}
+
 export default api;

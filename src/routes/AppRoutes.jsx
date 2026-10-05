@@ -43,6 +43,7 @@ const AdminJobs = lazy(() => import('../pages/admin/AdminJobs'));
 const AdminReports = lazy(() => import('../pages/admin/AdminReports'));
 const AdminCategories = lazy(() => import('../pages/admin/AdminCategories'));
 const AdminSettings = lazy(() => import('../pages/admin/AdminSettings'));
+const AdminReportsPrint = lazy(() => import('../pages/admin/AdminReportsPrint'));
 
 export default function AppRoutes() {
   return (
@@ -95,6 +96,8 @@ export default function AppRoutes() {
         </Route>
 
         <Route path="admin" element={<RoleRoute roles={['admin']} />}>
+          {/* Printable page sits outside the dashboard chrome */}
+          <Route path="reports/print" element={<AdminReportsPrint />} />
           <Route element={<DashboardLayout />}>
             <Route index element={<AdminDashboard />} />
             <Route path="dashboard" element={<AdminDashboard />} />

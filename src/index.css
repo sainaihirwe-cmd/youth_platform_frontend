@@ -153,3 +153,19 @@
     @apply whitespace-pre-line text-[15px] leading-7 text-slate-700 dark:text-slate-300;
   }
 }
+
+/* Printed pages (e.g. /admin/reports/print): A4 landscape, light background, no floating UI */
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 12mm;
+  }
+  html,
+  body {
+    background: #fff !important;
+    color: #0f172a !important;
+  }
+  [data-print-hide] {
+    display: none !important;
+  }
+}
